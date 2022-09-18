@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
+
+const {width : SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
   return (
@@ -9,7 +11,11 @@ export default function App() {
         <Text style={styles.cityName}>Seoul</Text>
       </View>
 
-      <ScrollView horizontal contentContainerStyle={styles.weather}>
+      <ScrollView 
+      horizontal 
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.weather}>
         <View style={styles.day}>
           <Text style={styles.temp}>27</Text>
           <Text style={styles.description}>Sunny</Text>
@@ -27,7 +33,7 @@ export default function App() {
           <Text style={styles.description}>Sunny</Text>
         </View>
       </ScrollView>
-    </View> 
+    </View>  
   );
 }
 
@@ -47,11 +53,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   weather: {
-    backgroundColor: 'blue',
+    
   },
   day: {
-    flex: 1,
-    alignItems: 'center',
+    width : SCREEN_WIDTH, //사용하는 디바이스 너비 만큼의 공간을 차지하게 됨
+    alignItems: 'center',  
   },
   temp: {
     marginTop: 50,
