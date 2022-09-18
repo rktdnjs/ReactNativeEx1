@@ -69,7 +69,10 @@ export default function App() {
   //참고로, 이부분에 만약 에러가 생긴다면 try catch문을 곁들여보세용
   const loadToDos = async () => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
-    s !== null ? setToDos(JSON.parse(s)) : null;
+    if(s) {
+      setToDos(JSON.parse(s));
+    }
+    // s !== null ? setToDos(JSON.parse(s)) : null;
   };
 
   return (
