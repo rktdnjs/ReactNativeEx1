@@ -1,14 +1,37 @@
 import * as React from 'react';
+import * as Location from 'expo-location';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
 
 export default function App() {
+  const [city, setCity] = useState("Loading...");
+  const [days, setDays] = useState([]);
+  const [ok, setOk] = useState(true);
+  const getWeather = async() => {
+    const {granted} = await Location.requestForegroundPermissionsAsync();
+    if(!granted) { //유저가 위치 정보 권한 요청을 거절
+      setOk(false);
+    }
+
+    const {coords:{latitude, longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
+    const location = await Location.reverseGeocodeAsync(
+      {latitude, longitude}, 
+      {useGoogleMaps:false}
+      );
+      setCity(location[0].region);
+  };
+
+  useEffect(() => {
+    getWeather();
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.cityName}>Seoul</Text>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
 
       <ScrollView 
