@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from './colors';
 import React, { useState, useEffect } from 'react';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 //setItem을 위해 필요한 key값을 따로 선언하였음.
 const STORAGE_KEY = "@toDos";
@@ -34,7 +35,25 @@ export default function App() {
     await saveToDos(newToDos);
     setText("");
   };
-  console.log(toDos);
+  
+  //state는 절대 mutate(변화)하면 안 된다.
+  //여기서는 state의 내용에 있던것으로 새 객체를 만들어 주고 있다.
+  //그 내용이 중요하기 때문에 ...을 해주는 것이다. (???)
+  //state의 내용으로 새 객체를 만들어서 newToDos안에 있는 key를 지워서 그 객체를
+  //setToDos를 통해 다시 세팅한다.
+  const deleteToDo = (key) => {
+    Alert.alert(
+      "To Do를 삭제하시겠습니까?", 
+      "정말로?! 되돌릴 수 없어요!!", [
+      {text : "취소"},
+      {text : "삭제", onPress:async() => {
+        const newToDos = {...toDos}
+        delete newToDos[key]
+        setToDos(newToDos);
+        saveToDos(newToDos);
+      }},
+    ]);
+  }
 
   //key와 value를 넣어주어야 하는데, value는 string형태여야 한다!
   //setItem은 promise를 반환하기 때문에, await를 사용할 수 있고 이 때 async도 써주어야 함!
@@ -79,6 +98,10 @@ export default function App() {
             toDos[key].working === working ? (
               <View style={styles.toDo} key={key}>
                 <Text style={styles.toDoText}>{toDos[key].text}</Text>
+                <TouchableOpacity onPress={()=> deleteToDo(key)}>
+                  <FontAwesome5 name="trash" size={24} color="white" />
+                </TouchableOpacity>
+                {/* 이모지는 윈도우 키 + . 을 통해서 사용가능 */}
               </View>
             ) : null
         ))}
@@ -118,6 +141,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   toDoText: {
     color: "white",
