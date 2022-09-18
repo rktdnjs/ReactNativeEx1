@@ -21,6 +21,9 @@ export default function App() {
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (e) => setText(e);
+  const addTodo = () => {
+    alert(text);
+  }
 
   return (
     <View style={styles.container}>
@@ -36,7 +39,9 @@ export default function App() {
       </View>
       <View>
           <TextInput 
+          onSubmitEditing={addTodo}
           onChangeText={onChangeText}
+          returnKeyType="done"
           value={text}
           placeholder={working? "할 일을 입력하세요!!" : "어디로 여행가고 싶으신가요?"} 
           style={styles.input}/>
