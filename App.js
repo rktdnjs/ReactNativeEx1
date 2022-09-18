@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { theme } from './colors';
 import React, { useState } from 'react';
 
@@ -27,12 +27,14 @@ export default function App() {
       return;
     }
     // Object.assign(타겟(새로 만들어질 객체 = {}), 소스1(이전 toDos), 소스2(새 친구들))
-    const newToDos = Object.assign({}, toDos, 
-      {[Date.now()]: {text, work:working}})
-      setToDos(newToDos);
-      setText("");
-  }
-  console.log(toDos);
+    // Object.assign말고도 ...을 이용해서도 할 수 있다!
+    const newToDos = {
+      ...toDos,
+      [Date.now()]: { text, work: working },
+    }
+    setToDos(newToDos);
+    setText("");
+  };
 
   return (
     <View style={styles.container}>
@@ -46,7 +48,6 @@ export default function App() {
           <Text style={{...styles.btnText, color:!working ? "white": theme.grey}}>Travel</Text>
         </TouchableOpacity>
       </View>
-      <View>
           <TextInput 
           onSubmitEditing={addTodo}
           onChangeText={onChangeText}
@@ -54,7 +55,13 @@ export default function App() {
           value={text}
           placeholder={working? "할 일을 입력하세요!!" : "어디로 여행가고 싶으신가요?"} 
           style={styles.input}/>
-      </View>
+          <ScrollView>
+            {Object.keys(toDos).map((key) => (
+            <View style={styles.toDo} key={key}>
+              <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            </View>
+        ))}
+          </ScrollView>
     </View>
   );
 }
@@ -81,7 +88,19 @@ const styles = StyleSheet.create({
     paddingVertical:15,
     paddingHorizontal: 20,
     borderRadius: 30,
-    marginTop: 20,
+    marginVertical: 20,
     fontSize: 18,
-  }
+  },
+  toDo: {
+    backgroundColor: theme.grey,
+    marginBottom: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+  },
+  toDoText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
+  },
 });
