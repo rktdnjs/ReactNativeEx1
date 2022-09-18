@@ -18,9 +18,21 @@ import React, { useState } from 'react';
 export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
+  const [toDos, setToDos] = useState({});
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (e) => setText(e);
+  const addTodo = () => {
+    if(text === "") {
+      return;
+    }
+    // Object.assign(타겟(새로 만들어질 객체 = {}), 소스1(이전 toDos), 소스2(새 친구들))
+    const newToDos = Object.assign({}, toDos, 
+      {[Date.now()]: {text, work:working}})
+      setToDos(newToDos);
+      setText("");
+  }
+  console.log(toDos);
 
   return (
     <View style={styles.container}>
@@ -36,7 +48,9 @@ export default function App() {
       </View>
       <View>
           <TextInput 
+          onSubmitEditing={addTodo}
           onChangeText={onChangeText}
+          returnKeyType="done"
           value={text}
           placeholder={working? "할 일을 입력하세요!!" : "어디로 여행가고 싶으신가요?"} 
           style={styles.input}/>
