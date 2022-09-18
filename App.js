@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 // import Constants from 'expo-constants';
 
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
+const API_KEY = "91466d74673c81a3f639ea04fea0d36a"; //안전한 방법은 아님, 원래는 서버에...!
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -22,6 +23,10 @@ export default function App() {
       {useGoogleMaps:false}
       );
       setCity(location[0].region);
+
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}&units=metric`)
+      const json = await response.json();
+      setDays(json.daily);
   };
 
   useEffect(() => {
@@ -39,22 +44,17 @@ export default function App() {
       pagingEnabled
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.weather}>
+        {days.length === 0 ? 
         <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
+          <ActivityIndicator color="white" style={{marginTop:10}} size="large"/>
+        </View> : (
+        days.map((day, index) => 
+        <View key={index} style={styles.day}>
+          {/* 여기서 toFixed는 소수점 1자리 까지라는 뜻 */}
+          <Text style={styles.temp}>{parseFloat(day.temp.day).toFixed(1)}</Text>
+          <Text style={styles.description}>{day.weather[0].main}</Text>
         </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
+        ))}
       </ScrollView>
     </View>  
   );
