@@ -14,7 +14,7 @@ export default function App() {
   const [toDos, setToDos] = useState({});
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
-  const onChangeText = (e) => setText(e);
+  const onChangeText = (e) => setText(e); 
 
     //앱이 로딩될 때 useEffect 실행!
     useEffect(() => {
