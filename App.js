@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
+  const [goals, setGoals] = useState([]);
 
   function goalInputHandler(Text) {
     setInputText(Text);
   };
 
   function addGoalHandler() {
-    console.log(inputText);
+    setGoals((currentCourseGoals) => [...currentCourseGoals, inputText]);
+    // 전달하는 매개변수는 react가 알아서 설정
   };
 
   return (
@@ -27,6 +29,7 @@ export default function App() {
 
       <View style={styles.goalsContainer}>
         <Text>목표 목록</Text>
+        {goals.map((goal) => <Text key={goal}>{goal}</Text>)}
       </View>
     </View>
   );
