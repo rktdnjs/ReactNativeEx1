@@ -10,7 +10,7 @@ export default function App() {
   }
 
   function addGoalHandler() {
-    setGoals((currentCourseGoals) => [...currentCourseGoals, {text: inputText, key: Math.random().toString()}, ]);
+    setGoals((currentCourseGoals) => [...currentCourseGoals, {text: inputText, id: Math.random().toString()}, ]);
     // 전달하는 매개변수는 react가 알아서 설정
     // 실제 목표 텍스트를 포함하는 text 프로퍼티 추가 & key 프로퍼티도 추가해서 고유 키로 설정 이 때 난수를 생성해서 사용(중복이 있을 순 있지만 일단 이렇게 고)
     // FlatList는 데이터 배열의 데이터가 객체 목록일 때 더 잘 작동한다. 데이터로 객체 목록이 있고 모든 객체에 key 프로퍼티가 있으면 자동으로 key도 적용됨
@@ -43,7 +43,11 @@ export default function App() {
               나머지 한 가지 방법은 입력 데이터에 key 프로퍼티를 설정하는 것이다. FlatList 컴포넌트에 KeyExtractor 프로퍼티를 추가한다.*/}
             </View>
           )
-        }} /> 
+        }} 
+        keyExtractor={(item, index) => {
+          return item.id; // item의 id 프로퍼티는 고유하므로 좋은 키가 되기 때문에 이를 key로 반환하여 사용함.
+        }}
+        /> 
         {/* data 프로퍼티 : 출력할 데이터를 지정 & renderItem 개별 데이터를 어떻게 렌더링 할지(FlatList는 콘텐츠를 전달할 때 열고 닫는 텍스트사이에 넣지 않음) */}
         {/* renderItem 프로퍼티는 개별 데이터 항목을 렌더링 하는 방법을 FlatList에 지시하는 함수를 값으로 갖는 프로퍼티, 함수는 자동으로 개별 항목을 매개변수로 받는다.*/}
         {/* Text를 View로 감싸면 IOS에는 Text에 바로 특정 CSS가 적용되지 않는것을 해결 가능(공식문서에 나옴) */}
