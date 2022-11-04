@@ -11,6 +11,10 @@ export default function App() {
     setModalIsVisible(true);
   }
 
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
+  }
+
   function addGoalHandler(inputText) {
     setGoals((currentCourseGoals) => [
       ...currentCourseGoals,
@@ -38,7 +42,11 @@ export default function App() {
         color='#5e0acc'
         onPress={startAddGoalHandler}
       />
-      {modalIsVisible && <GoalInput visible={modalIsVisible} onAddGoal={addGoalHandler} />}
+      <GoalInput
+        visible={modalIsVisible}
+        onAddGoal={addGoalHandler}
+        onCancel={endAddGoalHandler}
+      />
       {/* addGoalHandler는 GoalInput의 onAddGoal에 값으로 전달됨 */}
       <View style={styles.goalsContainer}>
         <Text>목표 목록</Text>
@@ -64,8 +72,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   appContainer: {
-    flex: 1, // 제일 바깥의 컨테이너가 1개 뿐이므로 외부 컨테이너가 전체 높이를 차지함
-    // 이후 내부 컨테이너들이 비율을 1:3으로 나눠서 가짐!
+    flex: 1, 
     paddingTop: 50,
     backgroundColor: "#fff8dc",
   },

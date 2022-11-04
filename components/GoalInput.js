@@ -1,6 +1,6 @@
 // 데이터 입력과 관련된 코드를 모아놓음
 import { useState } from 'react';
-import { StyleSheet, TextInput, View, Button, Modal } from 'react-native';
+import { StyleSheet, TextInput, View, Button, Modal, Image } from 'react-native';
 
 function GoalInput(props) {
   const [inputText, setInputText] = useState('');
@@ -17,6 +17,7 @@ function GoalInput(props) {
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.inputContainer}>
+      <Image style={styles.image} source={require('../assets/images/goal.png')} />
         <TextInput
           style={styles.textInput}
           placeholder='목표를 입력하세요!'
@@ -28,7 +29,7 @@ function GoalInput(props) {
           <Button title="목표 추가하기" onPress={addGoalHandler} />
         </View>
         <View style={styles.button}>
-          <Button title="닫기" />
+          <Button title="닫기" onPress={props.onCancel}/>
         </View>
           {/* 버튼의 경우 style 속성을 적용할 수 없다. 그렇기 때문에 다른 방법으로 수정 
         inputContainer의 alignItems를 수정하여 버튼이 늘어나지 않도록 함 */}
@@ -45,10 +46,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 24,
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc'
+    backgroundColor: '#311b6b',
+  },
+  image : {
+    width: 100,
+    height: 100,
+    margin: 20
   },
   textInput: {
     borderWidth: 1,
