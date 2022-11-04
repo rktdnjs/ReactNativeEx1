@@ -26,10 +26,10 @@ function GoalInput(props) {
         />
         <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <Button title="목표 추가하기" onPress={addGoalHandler} />
+          <Button title="목표 추가하기" onPress={addGoalHandler} color="#b180f0"/>
         </View>
         <View style={styles.button}>
-          <Button title="닫기" onPress={props.onCancel}/>
+          <Button title="닫기" onPress={props.onCancel} color="#f31282"/>
         </View>
           {/* 버튼의 경우 style 속성을 적용할 수 없다. 그렇기 때문에 다른 방법으로 수정 
         inputContainer의 alignItems를 수정하여 버튼이 늘어나지 않도록 함 */}
@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: '#e4d0ff',
+    backgroundColor: '#e4d0ff',
+    color: '#120438',
     borderRadius: 5,
     width: '100%', // 사용할 수 있는 너비의 80%를 쓸 수 있다. 
     padding: 8

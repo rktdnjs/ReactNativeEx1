@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Button } from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
@@ -39,7 +40,7 @@ export default function App() {
     <View style={styles.appContainer}>
       <Button
         title='새로운 목표 추가하기'
-        color='#5e0acc'
+        color='#a065ec'
         onPress={startAddGoalHandler}
       />
       <GoalInput
@@ -49,7 +50,6 @@ export default function App() {
       />
       {/* addGoalHandler는 GoalInput의 onAddGoal에 값으로 전달됨 */}
       <View style={styles.goalsContainer}>
-        <Text>목표 목록</Text>
         <FlatList
           data={goals}
           renderItem={(itemData) => {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1, 
     paddingTop: 50,
-    backgroundColor: "#fff8dc",
+    backgroundColor: "#1e085a",
   },
   goalsContainer: {
     flex: 5,
