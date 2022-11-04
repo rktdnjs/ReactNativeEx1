@@ -23,9 +23,16 @@ function GoalInput(props) {
           onChangeText={goalInputHandler}
           value={inputText}
         />
-        <Button title="목표 추가하기" onPress={addGoalHandler} />
-        {/* 버튼의 경우 style 속성을 적용할 수 없다. 그렇기 때문에 다른 방법으로 수정 
+        <View style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Button title="목표 추가하기" onPress={addGoalHandler} />
+        </View>
+        <View style={styles.button}>
+          <Button title="닫기" />
+        </View>
+          {/* 버튼의 경우 style 속성을 적용할 수 없다. 그렇기 때문에 다른 방법으로 수정 
         inputContainer의 alignItems를 수정하여 버튼이 늘어나지 않도록 함 */}
+        </View>
       </View>
     </Modal>
   );
@@ -36,18 +43,26 @@ export default GoalInput;
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 24,
+    padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#cccccc'
   },
   textInput: {
     borderWidth: 1,
     borderColor: '#cccccc',
-    width: '70%', // 사용할 수 있는 너비의 80%를 쓸 수 있다. 
-    marginRight: 8,
+    borderRadius: 5,
+    width: '100%', // 사용할 수 있는 너비의 80%를 쓸 수 있다. 
     padding: 8
   },
+  buttonContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+  },
+  button : {
+    width: 100,
+    marginHorizontal: 8
+  }
 })
