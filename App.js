@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Button } from "react-native";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
+
+  function startAddGoalHandler() {
+    setModalIsVisible(true);
+  }
 
   function addGoalHandler(inputText) {
     setGoals((currentCourseGoals) => [
@@ -28,7 +33,12 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title='새로운 목표 추가하기'
+        color='#5e0acc'
+        onPress={startAddGoalHandler}
+      />
+      {modalIsVisible && <GoalInput visible={modalIsVisible} onAddGoal={addGoalHandler} />}
       {/* addGoalHandler는 GoalInput의 onAddGoal에 값으로 전달됨 */}
       <View style={styles.goalsContainer}>
         <Text>목표 목록</Text>
